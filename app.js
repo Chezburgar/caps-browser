@@ -9,6 +9,7 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 const LS_SETTINGS = "capsBrowser.settings";
 const LS_TODOS = "capsBrowser.todos";
 const LS_WEATHER = "capsBrowser.weatherCache";
+const LS_UPLOAD_PASS = "capsBrowser.uploadPass";
 
 // Supabase — where your music lives so it persists across every device.
 // This anon key is PUBLIC by design and safe to ship: a server-side
@@ -570,6 +571,11 @@ function initMusic() {
   });
 
   $("#musicRefresh").addEventListener("click", loadPlaylist);
+  $("#musicAdd").addEventListener("click", () => $("#musicUpFiles").click());
+  $("#musicUpFiles").addEventListener("change", (e) => {
+    if (e.target.files.length) uploadFilesToCloud(e.target.files);
+    e.target.value = "";
+  });
   loadPlaylist();
 }
 function addSessionFiles(fileList) {
@@ -577,6 +583,74 @@ function addSessionFiles(fileList) {
     state.music.sessionTracks.push({ title: titleFromName(f.name), src: URL.createObjectURL(f) });
   }
   loadPlaylist();
+}
+
+/* ---------- upload to your Supabase library (saves to every device) ----------
+   The browser never holds the admin key. It POSTs the file + your passphrase
+   to the upload-music Edge Function, which checks the passphrase server-side
+   and does the privileged write. */
+const AUDIO_RE = /\.(mp3|m4a|aac|ogg|oga|opus|wav|flac|webm)$/i;
+function getUploadPass() { return (localStorage.getItem(LS_UPLOAD_PASS) || "").trim(); }
+function setUploadPass(v) {
+  v = (v || "").trim();
+  if (v) localStorage.setItem(LS_UPLOAD_PASS, v);
+  else localStorage.removeItem(LS_UPLOAD_PASS);
+  const f = $("#setUploadPass"); if (f) f.value = v;
+}
+function setMusicStatus(msg, kind) {
+  const el = $("#musicStatus");
+  if (!el) return;
+  el.textContent = msg || "";
+  el.hidden = !msg;
+  el.classList.toggle("is-error", kind === "error");
+  el.classList.toggle("is-ok", kind === "ok");
+}
+async function uploadOneTrack(file, pass) {
+  const r = await fetch(`${SUPABASE.url}/functions/v1/upload-music`, {
+    method: "POST",
+    headers: {
+      "x-upload-pass": pass,
+      "x-file-name": encodeURIComponent(file.name),
+      "Content-Type": file.type || "application/octet-stream",
+    },
+    body: file,
+  });
+  let data = {};
+  try { data = await r.json(); } catch {}
+  if (r.status === 401) { const e = new Error("Wrong passphrase"); e.code = 401; throw e; }
+  if (!r.ok || !data.ok) throw new Error(data.error || `Upload failed (${r.status})`);
+  return data;
+}
+async function uploadFilesToCloud(fileList) {
+  const files = Array.from(fileList).filter((f) => AUDIO_RE.test(f.name));
+  if (!files.length) { setMusicStatus("Pick audio files (mp3, m4a, wav, flac…).", "error"); return; }
+  let pass = getUploadPass();
+  if (!pass) {
+    pass = (prompt("Enter your music upload passphrase (saved on this device after the first time):") || "").trim();
+    if (!pass) { setMusicStatus("Upload cancelled — no passphrase entered.", "error"); return; }
+  }
+  let ok = 0;
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    setMusicStatus(`Uploading ${f.name}… (${i + 1}/${files.length})`);
+    try {
+      await uploadOneTrack(f, pass);
+      ok++;
+    } catch (e) {
+      if (e.code === 401) {
+        setUploadPass("");
+        setMusicStatus("Wrong passphrase — cleared. Set it again in Settings ▸ Music.", "error");
+        return;
+      }
+      setMusicStatus(`Couldn’t add ${f.name}: ${e.message}`, "error");
+    }
+  }
+  if (ok) {
+    setUploadPass(pass); // remember the passphrase that worked
+    setMusicStatus(`Added ${ok} song${ok > 1 ? "s" : ""} to your library ✓`, "ok");
+    await loadPlaylist();
+    setTimeout(() => { const el = $("#musicStatus"); if (el && el.classList.contains("is-ok")) setMusicStatus(""); }, 4000);
+  }
 }
 
 /* ====================================================================
@@ -621,6 +695,7 @@ function populateSettings() {
 
   $("#setMusicShuffle").checked = s.music.shuffle;
   $("#setMusicAutoplay").checked = s.music.autoplay;
+  $("#setUploadPass").value = getUploadPass();
 
   renderAccountEditor();
   renderShortcutEditor();
@@ -807,6 +882,9 @@ function initSettings() {
   });
   $("#setMusicAdd").addEventListener("click", () => $("#setMusicFiles").click());
   $("#setMusicFiles").addEventListener("change", (e) => { if (e.target.files.length) addSessionFiles(e.target.files); });
+  $("#setUploadPass").addEventListener("change", (e) => setUploadPass(e.target.value));
+  $("#setUploadCloud").addEventListener("click", () => $("#setUploadFiles").click());
+  $("#setUploadFiles").addEventListener("change", (e) => { if (e.target.files.length) uploadFilesToCloud(e.target.files); e.target.value = ""; });
 
   // reset
   $("#setReset").addEventListener("click", () => {

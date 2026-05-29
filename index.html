@@ -123,8 +123,13 @@
           <button id="musicShuffle" class="music__btn" title="Shuffle" aria-label="Toggle shuffle">🔀</button>
           <input id="musicVol" class="music__vol" type="range" min="0" max="100" value="60" aria-label="Volume" />
         </div>
+        <div class="music__add">
+          <input id="musicUpFiles" type="file" accept="audio/*" multiple hidden />
+          <button id="musicAdd" class="music__addbtn" type="button" title="Upload a song to your library — it syncs to every device">+ Add song</button>
+        </div>
+        <p id="musicStatus" class="music__status" role="status" aria-live="polite" hidden></p>
         <ul id="musicList" class="music__list"></ul>
-        <p id="musicEmpty" class="music__empty">No songs yet. Add audio to your <code>caps-music</code> Supabase library and hit reload — or add files just for this session in Settings.</p>
+        <p id="musicEmpty" class="music__empty">No songs yet. Hit <strong>+ Add song</strong> to upload music to your library — it syncs to every device.</p>
       </article>
     </section>
   </main>
@@ -222,11 +227,24 @@
 
       <section class="set-group">
         <h3>Music</h3>
-        <p class="set-hint">Your saved music comes from your Supabase <code>caps-music</code> library and syncs to every device. Files you add below play only for this session.</p>
+        <p class="set-hint">Songs you add with <strong>+ Add song</strong> upload to your Supabase <code>caps-music</code> library and sync to every device. Enter the upload passphrase once per device to enable it.</p>
         <label class="set-toggle"><input type="checkbox" id="setMusicShuffle" /><span>Shuffle</span></label>
         <label class="set-toggle"><input type="checkbox" id="setMusicAutoplay" /><span>Try autoplay on open</span></label>
         <div class="set-row">
-          <span>Add tracks (this session)</span>
+          <span>Upload passphrase</span>
+          <div class="set-inline">
+            <input id="setUploadPass" type="password" placeholder="Enter to enable uploads" autocomplete="new-password" />
+          </div>
+        </div>
+        <div class="set-row">
+          <span>Add songs to library</span>
+          <div class="set-inline">
+            <input id="setUploadFiles" type="file" accept="audio/*" multiple hidden />
+            <button id="setUploadCloud" class="btn">Upload…</button>
+          </div>
+        </div>
+        <div class="set-row">
+          <span>Add tracks (this session only)</span>
           <div class="set-inline">
             <input id="setMusicFiles" type="file" accept="audio/*" multiple hidden />
             <button id="setMusicAdd" class="btn">Choose files…</button>

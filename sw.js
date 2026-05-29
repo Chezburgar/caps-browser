@@ -1,5 +1,5 @@
 /* Capitals Browser service worker — offline app shell + installability */
-const CACHE = "caps-browser-v3";
+const CACHE = "caps-browser-v4";
 const SHELL = [
   "./",
   "index.html",
