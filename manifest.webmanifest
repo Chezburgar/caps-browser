@@ -1,0 +1,25 @@
+{
+  "name": "Capitals Browser",
+  "short_name": "Caps",
+  "description": "A Washington Capitals themed start page and installable browser home with Google search, weather, to-do, accounts and music.",
+  "id": "/",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#041E42",
+  "theme_color": "#041E42",
+  "categories": ["productivity", "personalization", "utilities"],
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" },
+    { "src": "assets/icon-maskable.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Search Google", "url": ".?focus=search" },
+    { "name": "Open Gmail", "url": "https://mail.google.com/mail/u/0/" }
+  ]
+}

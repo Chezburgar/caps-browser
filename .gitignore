@@ -1,0 +1,21 @@
+# Audio files live in your Supabase caps-music bucket, not in git
+*.mp3
+*.m4a
+*.aac
+*.ogg
+*.oga
+*.opus
+*.wav
+*.flac
+*.webm
+
+# Secrets — NEVER commit your Supabase service-role key
+supabase-key.txt
+.env
+*.local
+*.secret.*
+
+# OS / editor junk
+Thumbs.db
+.DS_Store
+*.log

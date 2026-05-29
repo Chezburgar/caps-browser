@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Capitals emblem">
+  <defs>
+    <radialGradient id="navy" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#0A2A5E"/>
+      <stop offset="100%" stop-color="#041E42"/>
+    </radialGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="url(#navy)"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#C8102E" stroke-width="4.5"/>
+  <circle cx="50" cy="50" r="39.5" fill="none" stroke="#ffffff" stroke-width="1.4" opacity="0.85"/>
+  <g fill="#ffffff">
+    <rect x="29" y="60" width="42" height="5" rx="1"/>
+    <rect x="34" y="47" width="32" height="13"/>
+    <path d="M34 47 L50 40.5 L66 47 Z"/>
+    <rect x="44" y="33" width="12" height="8"/>
+    <path d="M44 33 a6 7 0 0 1 12 0 Z"/>
+    <rect x="48.6" y="27" width="2.8" height="6"/>
+    <circle cx="50" cy="25.6" r="1.7"/>
+  </g>
+  <g fill="#06214a">
+    <rect x="37" y="49" width="1.8" height="11"/>
+    <rect x="41.5" y="49" width="1.8" height="11"/>
+    <rect x="46" y="49" width="1.8" height="11"/>
+    <rect x="50.5" y="49" width="1.8" height="11"/>
+    <rect x="55" y="49" width="1.8" height="11"/>
+    <rect x="59.5" y="49" width="1.8" height="11"/>
+  </g>
+  <g fill="#C8102E">
+    <g transform="translate(38,73)"><path d="M0,-4 L0.94,-1.29 L3.8,-1.24 L1.52,0.49 L2.35,3.24 L0,1.6 L-2.35,3.24 L-1.52,0.49 L-3.8,-1.24 L-0.94,-1.29 Z"/></g>
+    <g transform="translate(50,75)"><path d="M0,-4 L0.94,-1.29 L3.8,-1.24 L1.52,0.49 L2.35,3.24 L0,1.6 L-2.35,3.24 L-1.52,0.49 L-3.8,-1.24 L-0.94,-1.29 Z"/></g>
+    <g transform="translate(62,73)"><path d="M0,-4 L0.94,-1.29 L3.8,-1.24 L1.52,0.49 L2.35,3.24 L0,1.6 L-2.35,3.24 L-1.52,0.49 L-3.8,-1.24 L-0.94,-1.29 Z"/></g>
+  </g>
+</svg>

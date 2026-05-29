@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#041E42" />
+  <meta name="description" content="A Washington Capitals themed start page and installable browser home." />
+  <title>Capitals Browser</title>
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-bg-speed="medium">
+  <!-- Animated Caps-colored background -->
+  <div id="bg" aria-hidden="true">
+    <div class="bg-gradient"></div>
+    <div class="bg-blob bg-blob--red"></div>
+    <div class="bg-blob bg-blob--navy"></div>
+    <div class="bg-blob bg-blob--steel"></div>
+    <div class="bg-noise"></div>
+  </div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <img id="brandLogo" class="brand__logo" src="assets/logo.svg" alt="Capitals logo" width="44" height="44" />
+      <div class="brand__text">
+        <span id="brandName" class="brand__name">CAPITALS</span>
+        <span class="brand__sub">browser</span>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <div id="accountChips" class="account-chips" aria-label="Google accounts"></div>
+      <button id="addAccountBtn" class="icon-btn" title="Add a Google account" aria-label="Add a Google account">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M15 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3 0-7 1.5-7 4.5V21h14v-2.5C22 15.5 18 14 15 14ZM6 10V7H4v3H1v2h3v3h2v-3h3v-2H6Z"/></svg>
+      </button>
+      <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Open settings">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94a7.49 7.49 0 0 0 .05-.94 7.49 7.49 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54a7 7 0 0 0-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.29 8.2a.5.5 0 0 0 .12.64l2.03 1.58a7.49 7.49 0 0 0 0 1.88L2.41 13.9a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .61.22l2.39-.96a7 7 0 0 0 1.62.94l.36 2.54a.5.5 0 0 0 .5.42h3.84a.5.5 0 0 0 .5-.42l.36-2.54a7 7 0 0 0 1.62-.94l2.39.96a.5.5 0 0 0 .61-.22l1.92-3.32a.5.5 0 0 0-.12-.64ZM12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Hero: clock, date, search -->
+    <section class="hero">
+      <div class="hero__time">
+        <div id="clock" class="clock">--:--</div>
+        <div id="date" class="date">Loading…</div>
+      </div>
+
+      <form id="searchForm" class="search" action="https://www.google.com/search" method="GET" role="search">
+        <span class="search__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5 1.49-1.5-5-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"/></svg>
+        </span>
+        <input id="searchInput" name="q" class="search__input" type="text"
+               placeholder="Search Google or type a URL" autocomplete="off"
+               autocapitalize="off" spellcheck="false" autofocus />
+        <button type="submit" class="search__go">Go</button>
+      </form>
+
+      <nav id="quickLinks" class="quicklinks" aria-label="Quick links"></nav>
+    </section>
+
+    <!-- Widgets -->
+    <section class="widgets">
+      <!-- Weather -->
+      <article id="weatherCard" class="card weather">
+        <header class="card__head">
+          <h2 class="card__title">Weather</h2>
+          <button class="card__refresh" id="weatherRefresh" title="Refresh weather" aria-label="Refresh weather">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08A6 6 0 1 1 12 6a5.9 5.9 0 0 1 4.22 1.78L13 11h7V4Z"/></svg>
+          </button>
+        </header>
+        <div class="weather__body">
+          <div class="weather__main">
+            <span id="weatherIcon" class="weather__icon">⛅</span>
+            <span id="weatherTemp" class="weather__temp">--°</span>
+          </div>
+          <div class="weather__meta">
+            <div id="weatherCond" class="weather__cond">—</div>
+            <div id="weatherPlace" class="weather__place">—</div>
+            <div id="weatherHilo" class="weather__hilo"></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- To-do -->
+      <article id="todoCard" class="card todo">
+        <header class="card__head">
+          <h2 class="card__title">To-Do</h2>
+          <span id="todoCount" class="card__badge">0</span>
+        </header>
+        <form id="todoForm" class="todo__form">
+          <input id="todoInput" class="todo__input" type="text" placeholder="Add a task and press Enter" autocomplete="off" />
+          <button type="submit" class="todo__add" aria-label="Add task">+</button>
+        </form>
+        <ul id="todoList" class="todo__list"></ul>
+        <p id="todoEmpty" class="todo__empty">Nothing yet — add your first task. 🏒</p>
+      </article>
+
+      <!-- Music -->
+      <article id="musicCard" class="card music">
+        <header class="card__head">
+          <h2 class="card__title">Music</h2>
+          <button class="card__refresh" id="musicRefresh" title="Reload playlist" aria-label="Reload playlist">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08A6 6 0 1 1 12 6a5.9 5.9 0 0 1 4.22 1.78L13 11h7V4Z"/></svg>
+          </button>
+        </header>
+        <div class="music__now">
+          <div id="musicTitle" class="music__title">No track loaded</div>
+          <div class="music__seek">
+            <input id="musicSeek" class="music__seekbar" type="range" min="0" max="100" value="0" aria-label="Seek" />
+            <div class="music__times"><span id="musicCur">0:00</span><span id="musicDur">0:00</span></div>
+          </div>
+        </div>
+        <div class="music__controls">
+          <button id="musicPrev" class="music__btn" title="Previous" aria-label="Previous">⏮</button>
+          <button id="musicPlay" class="music__btn music__btn--play" title="Play / Pause" aria-label="Play or pause">▶</button>
+          <button id="musicNext" class="music__btn" title="Next" aria-label="Next">⏭</button>
+          <button id="musicShuffle" class="music__btn" title="Shuffle" aria-label="Toggle shuffle">🔀</button>
+          <input id="musicVol" class="music__vol" type="range" min="0" max="100" value="60" aria-label="Volume" />
+        </div>
+        <ul id="musicList" class="music__list"></ul>
+        <p id="musicEmpty" class="music__empty">No songs yet. Add audio to your <code>caps-music</code> Supabase library and hit reload — or add files just for this session in Settings.</p>
+      </article>
+    </section>
+  </main>
+
+  <!-- Settings slide-over -->
+  <div id="settingsOverlay" class="overlay" hidden></div>
+  <aside id="settingsPanel" class="settings" aria-label="Settings" aria-hidden="true">
+    <header class="settings__head">
+      <h2>Settings</h2>
+      <button id="settingsClose" class="icon-btn" aria-label="Close settings">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.3 19.71 2.89 18.3 9.17 12 2.89 5.71 4.3 4.29l6.29 6.3 6.3-6.3 1.41 1.42Z"/></svg>
+      </button>
+    </header>
+
+    <div class="settings__body">
+      <section class="set-group">
+        <h3>Identity</h3>
+        <label class="set-row">
+          <span>Browser name</span>
+          <input id="setBrandName" type="text" maxlength="20" />
+        </label>
+        <div class="set-row">
+          <span>Logo</span>
+          <div class="set-inline">
+            <input id="setLogoFile" type="file" accept="image/*" hidden />
+            <button id="setLogoUpload" class="btn">Upload…</button>
+            <button id="setLogoReset" class="btn btn--ghost">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="set-group">
+        <h3>Widgets</h3>
+        <label class="set-toggle"><input type="checkbox" id="setShowClock" /><span>Clock &amp; date</span></label>
+        <label class="set-toggle"><input type="checkbox" id="setShowWeather" /><span>Weather</span></label>
+        <label class="set-toggle"><input type="checkbox" id="setShowTodo" /><span>To-do list</span></label>
+        <label class="set-toggle"><input type="checkbox" id="setShowMusic" /><span>Music player</span></label>
+        <label class="set-toggle"><input type="checkbox" id="setShowQuick" /><span>Quick links</span></label>
+        <label class="set-toggle"><input type="checkbox" id="setShowAccounts" /><span>Account switcher</span></label>
+        <label class="set-toggle"><input type="checkbox" id="setClock24" /><span>24-hour clock</span></label>
+      </section>
+
+      <section class="set-group" id="setShortcutsGroup">
+        <h3>Shortcuts bar</h3>
+        <p class="set-hint">These are the quick-link buttons under the search box. Use <code>{u}</code> in a URL to insert the active account number (e.g. Gmail).</p>
+        <div id="setShortcutList" class="set-shortcuts"></div>
+        <button id="setAddShortcut" class="btn">Add shortcut</button>
+      </section>
+
+      <section class="set-group">
+        <h3>Weather</h3>
+        <div class="set-row">
+          <span>Units</span>
+          <div class="seg" role="group">
+            <button class="seg__btn" data-unit="fahrenheit">°F</button>
+            <button class="seg__btn" data-unit="celsius">°C</button>
+          </div>
+        </div>
+        <div class="set-row">
+          <span>Location</span>
+          <div class="seg" role="group">
+            <button class="seg__btn" data-wmode="auto">Auto</button>
+            <button class="seg__btn" data-wmode="manual">City</button>
+          </div>
+        </div>
+        <label class="set-row" id="setCityRow">
+          <span>City</span>
+          <input id="setCity" type="text" placeholder="e.g. Washington" />
+        </label>
+      </section>
+
+      <section class="set-group">
+        <h3>Background</h3>
+        <label class="set-toggle"><input type="checkbox" id="setBgAnimate" /><span>Animate background</span></label>
+        <div class="set-row">
+          <span>Speed</span>
+          <div class="seg" role="group">
+            <button class="seg__btn" data-speed="slow">Slow</button>
+            <button class="seg__btn" data-speed="medium">Med</button>
+            <button class="seg__btn" data-speed="fast">Fast</button>
+          </div>
+        </div>
+        <label class="set-row">
+          <span>Intensity</span>
+          <input id="setBgIntensity" type="range" min="40" max="130" value="100" />
+        </label>
+      </section>
+
+      <section class="set-group">
+        <h3>Google accounts</h3>
+        <p class="set-hint">Each account maps to a Google profile slot (the <code>/u/0/</code>, <code>/u/1/</code> … you see in Gmail). Sign in to them with “Add account”, then jump in with one click.</p>
+        <div id="setAccountList" class="set-accounts"></div>
+        <button id="setAddAccount" class="btn">Add account row</button>
+      </section>
+
+      <section class="set-group">
+        <h3>Music</h3>
+        <p class="set-hint">Your saved music comes from your Supabase <code>caps-music</code> library and syncs to every device. Files you add below play only for this session.</p>
+        <label class="set-toggle"><input type="checkbox" id="setMusicShuffle" /><span>Shuffle</span></label>
+        <label class="set-toggle"><input type="checkbox" id="setMusicAutoplay" /><span>Try autoplay on open</span></label>
+        <div class="set-row">
+          <span>Add tracks (this session)</span>
+          <div class="set-inline">
+            <input id="setMusicFiles" type="file" accept="audio/*" multiple hidden />
+            <button id="setMusicAdd" class="btn">Choose files…</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="set-group">
+        <button id="setReset" class="btn btn--danger">Reset everything</button>
+      </section>
+    </div>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
